@@ -14,6 +14,7 @@ public class ArrayListImplementation {
 		aLL.add(21); aLL.add(22); aLL.add(23); aLL.add(24); aLL.add(21); aLL.add(22); aLL.add(23); aLL.add(24);
 		//aLL.printArray();
 		aLL.printSizes();
+		System.out.println(aLL.get(2555));
 	}
 }
 
@@ -23,16 +24,47 @@ class MyArrayList {
 	public int capacity = 16;
 	
 	public int get(int index) {
-		if (index >= length) throw new java.lang.Error("Index out of bounds Exception");
+		if (index >= length) throw new java.lang.RuntimeException("Index out of bounds Exception");
 		return arr[index];
+	}
+	
+	public void set(int index, int elem) {
+		if (index >= length) throw new java.lang.RuntimeException("Index out of bounds Exception");
+		arr[index] = elem;
+	}
+	
+	public boolean IsEmpty() {
+		return length == 0 ? true : false;
+	}
+	
+	public int indexOf(int elem) {
+		for(int i = 0 ; i < length ; i++) 
+			if (arr[i] == elem) return i;
+		return -1;
+	}
+	
+	public void remove(int elem) {
+		int index = this.indexOf(elem);
+		if (index == -1) return;
+		
+		// Copy for the elements after the element to be removed
+		for (int i = index ; i < length ; i++)
+			arr[i] = arr[i + 1];
+		
+		// decrement the size of the array
+		length--;
+	}
+	
+	public boolean contains(int elem) {
+		for (int i = 0 ; i < length ; i++) 
+			if (arr[i] == elem) return true;
+		return false;
 	}
 	
 	public void add(int elem) {
 		// Check if the array is half filled
 		if (length >= (capacity / 2)) {
-			System.out.println("Reached Here 1");
 			arr = Arrays.copyOf(arr, capacity * 2);
-			System.out.println("Reached Here");
 			capacity = capacity * 2;
 		}
 		arr[length++] = elem;
